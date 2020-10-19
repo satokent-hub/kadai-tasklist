@@ -3,10 +3,8 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:show, :edit, :destroy]
   
   def index
-      if logged_in?
         @task = current_user.tasks.build  
         @tasks = current_user.tasks.order(id: :desc)
-      end
   end
   
   def show
@@ -14,6 +12,7 @@ class TasksController < ApplicationController
   end
   
   def new
+    @task = Task.new
   end
 
   def create
@@ -25,7 +24,7 @@ class TasksController < ApplicationController
     else
       @tasks = current_user.tasks.order(id: :desc)
       flash.now[:danger] = 'Task が投稿されませんでした'
-      render 'tasks/index'
+      render 'tasks/new'
     end
   end
 
